@@ -19,12 +19,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Bun.js
-        uses: oven-sh/setup-bun@v1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: Install Dependencies
-        run: bun install
+        run: pnpm install
       - name: Build Storybook
-        run: bun build-storybook
+        run: pnpm run build-storybook
       - name: Deploy Storybook
         uses: peaceiris/actions-gh-pages@v3
         with:

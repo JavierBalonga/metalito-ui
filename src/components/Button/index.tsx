@@ -1,61 +1,112 @@
 import { ComponentProps, MouseEventHandler, ReactNode } from "react";
-import { twMerge } from "tailwind-merge";
+import { cva } from "class-variance-authority";
 
-export interface ButtonProps extends ComponentProps<"button"> {
-  /**
-   * The variant to use.
-   */
-  variant?: "filled" | "outlined";
-  /**
-   * The color to use.
-   */
-  color?: "primary" | "white" | "error" | "success" | "warning";
-  /**
-   * The button content.
-   */
+export type ButtonVariant = "contained" | "outlined" | "text";
+
+export type ButtonColor = "primary" | "danger" | "white";
+
+const getButtonClassName = cva(
+  "px-6 py-3 font-bold text-sm rounded-lg transition-colors border",
+  {
+    variants: {
+      variant: {
+        contained: "",
+        outlined: "hover:text-neutral-950 active:text-neutral-950 ",
+        text: "border-transparent hover:bg-neutral-500/50 active:bg-neutral-500/75",
+      },
+      color: {
+        primary: "",
+        white: "",
+        danger: "",
+      },
+    },
+    compoundVariants: [
+      /* variant: "contained" */
+      {
+        variant: "contained",
+        color: "primary",
+        className:
+          "bg-primary border-primary hover:bg-primary-light active:bg-primary-dark",
+      },
+      {
+        variant: "contained",
+        color: "white",
+        className: [
+          "bg-neutral-200 border-neutral-200 text-neutral-900 hover:bg-neutral-50 active:bg-neutral-400",
+        ],
+      },
+      {
+        variant: "contained",
+        color: "danger",
+        className:
+          "bg-error border-error hover:bg-error-light active:bg-error-dark",
+      },
+      /* variant: "outlined" */
+      {
+        variant: "outlined",
+        color: "primary",
+        className:
+          "border-primary text-primary hover:bg-primary-light active:bg-primary-dark",
+      },
+      {
+        variant: "outlined",
+        color: "white",
+        className: [
+          "border-neutral-200 text-neutral-200 hover:bg-neutral-50 active:bg-neutral-400",
+        ],
+      },
+      {
+        variant: "outlined",
+        color: "danger",
+        className:
+          "border-error text-error hover:bg-error-light active:bg-error-dark",
+      },
+      /* variant: "text" */
+      {
+        variant: "text",
+        color: "primary",
+        className: "text-primary",
+      },
+      {
+        variant: "text",
+        color: "white",
+        className: "text-white",
+      },
+      {
+        variant: "text",
+        color: "danger",
+        className: "text-error",
+      },
+    ],
+    defaultVariants: {
+      variant: "text",
+      color: "white",
+    },
+  }
+);
+
+export interface ButtonProps extends Omit<ComponentProps<"button">, "color"> {
+  /** The variant to use. */
+  variant?: ButtonVariant;
+  /** The color to use. */
+  color?: ButtonColor;
+  /** The button content. */
   children?: ReactNode;
-  /**
-   * The handler function for the `click` event.
-   */
+  /** The handler function for the `click` event. */
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  // TODO: size
 }
 
 export default function Button({
-  variant = "outlined",
-  color = "primary",
+  variant = "text",
+  color = "white",
   className,
   children,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={twMerge(
-        "px-6 py-3 font-bold text-sm rounded-lg transition-colors border",
-        variant === "filled"
-          ? color === "primary"
-            ? "bg-primary border-primary hover:bg-primary-light active:bg-primary-dark"
-            : color === "white"
-            ? "bg-neutral-200 border-neutral-200 text-neutral-900 hover:bg-neutral-50 active:bg-neutral-400"
-            : color === "error"
-            ? "bg-error border-error hover:bg-error-light active:bg-error-dark"
-            : color === "success"
-            ? "bg-success border-success hover:bg-success-light active:bg-success-dark"
-            : color === "warning"
-            ? "bg-warning border-warning hover:bg-warning-light active:bg-warning-dark"
-            : ""
-          : color === "primary"
-          ? "border-primary text-primary hover:bg-primary-light active:bg-primary-dark"
-          : color === "white"
-          ? "border-neutral-200 text-neutral-200 hover:bg-neutral-50 active:bg-neutral-400"
-          : color === "error"
-          ? "border-error text-error hover:bg-error-light active:bg-error-dark"
-          : color === "success"
-          ? "border-success text-success hover:bg-success-light active:bg-success-dark"
-          : color === "warning"
-          ? "border-warning text-warning hover:bg-warning-light active:bg-warning-dark"
-          : "",
-        className
-      )}
+      className={getButtonClassName({ variant, color, className })}
       {...props}
     >
       {children}

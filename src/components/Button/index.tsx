@@ -26,7 +26,7 @@ const getButtonClassName = cva(
         variant: "contained",
         color: "primary",
         className:
-          "bg-primary border-primary hover:bg-primary-light active:bg-primary-dark",
+          "bg-primary border-primary text-neutral-900 hover:bg-primary-light active:bg-primary-dark",
       },
       {
         variant: "contained",
@@ -39,7 +39,7 @@ const getButtonClassName = cva(
         variant: "contained",
         color: "danger",
         className:
-          "bg-error border-error hover:bg-error-light active:bg-error-dark",
+          "bg-error border-error text-neutral-200 hover:bg-error-light active:bg-error-dark",
       },
       /* variant: "outlined" */
       {

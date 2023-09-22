@@ -13,7 +13,6 @@ const meta = {
     label: "Label",
     placeholder: "Placeholder",
     helperText: "Helper text",
-    icon: <EyeIcon />,
     options: [
       { value: "Option 1" },
       { value: "Option 2" },

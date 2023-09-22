@@ -1,5 +1,15 @@
-import { ComponentProps, MouseEvent, ReactNode } from "react";
+import {
+  ComponentProps,
+  MouseEvent,
+  ReactNode,
+  useEffect,
+  useRef,
+} from "react";
 import { cx } from "class-variance-authority";
+import ArrowDownIcon from "../icons/ArrowDownIcon";
+
+const UP_KEY = "ArrowUp";
+const DOWN_KEY = "ArrowDown";
 
 export interface SelectOption {
   value: string | number;
@@ -13,8 +23,6 @@ export interface SelectInputProps
   /** The helper text for the input. */
   helperText?: ReactNode;
   /** The icon for the input. */
-  icon?: ReactNode;
-  /** The options for the select input. */
   options?: SelectOption[];
   /** The callback for when the input changes. */
   onChange?: (value: string | number) => void;
@@ -24,7 +32,6 @@ export interface SelectInputProps
 export default function SelectInput({
   label,
   helperText,
-  icon,
   options = [],
   id,
   name,
@@ -32,6 +39,34 @@ export default function SelectInput({
   onChange,
   ...props
 }: SelectInputProps) {
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Handle keyboard navigation between options within up and down arrow keys.
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!menuRef.current) return;
+      if (e.key !== UP_KEY && e.key !== DOWN_KEY) return;
+      const optionElements = menuRef.current.querySelectorAll("button");
+      let focusedIndex: number | null = null;
+      for (let index = 0; index < optionElements.length; index++) {
+        const optionElement = optionElements[index];
+        if (optionElement === document.activeElement) {
+          focusedIndex = index;
+          break;
+        }
+      }
+      if (focusedIndex === null) return;
+      if (e.key === DOWN_KEY) {
+        optionElements[focusedIndex + 1]?.focus();
+      }
+      if (e.key === UP_KEY) {
+        optionElements[focusedIndex - 1]?.focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const handleOptionClick = (
     e: MouseEvent<HTMLButtonElement>,
     option: SelectOption,
@@ -59,12 +94,15 @@ export default function SelectInput({
           name={name}
           {...props}
         />
-        {icon}
-        <div className="absolute left-0 top-full flex w-full translate-y-0 flex-col rounded border-2 border-neutral-100 bg-neutral-950 opacity-0 transition-all group-focus-within:translate-y-2 group-focus-within:opacity-100">
+        <ArrowDownIcon className="rotate-0 transition-transform group-focus-within:rotate-180" />
+        <div
+          className="absolute left-0 top-full z-10 flex w-full translate-y-0 flex-col rounded border-2 border-neutral-100 bg-neutral-950 opacity-0 transition-all group-focus-within:translate-y-2 group-focus-within:opacity-100"
+          ref={menuRef}
+        >
           {options.map((option) => (
             <button
               key={option.value}
-              className="p-2 text-left transition-colors hover:bg-neutral-100/10"
+              className="p-2 text-left transition-colors hover:bg-neutral-100/5 focus:bg-neutral-100/5 focus:outline-none"
               onClick={(e) => handleOptionClick(e, option)}
             >
               {String(option.value) || option.label}

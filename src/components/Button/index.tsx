@@ -11,7 +11,7 @@ const getButtonClassName = cva(
     variants: {
       variant: {
         contained: "",
-        outlined: "hover:text-neutral-950 active:text-neutral-950 ",
+        outlined: "hover:text-neutral-950 active:text-neutral-950",
         text: "border-transparent hover:bg-neutral-500/50 active:bg-neutral-500/75",
       },
       color: {
@@ -82,7 +82,7 @@ const getButtonClassName = cva(
       variant: "text",
       color: "white",
     },
-  }
+  },
 );
 
 export interface ButtonProps extends Omit<ComponentProps<"button">, "color"> {

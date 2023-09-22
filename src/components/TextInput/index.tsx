@@ -1,5 +1,5 @@
-import { cx } from "class-variance-authority";
 import { ComponentProps, ReactNode } from "react";
+import { cx } from "class-variance-authority";
 
 export interface TextInputProps extends ComponentProps<"input"> {
   /** The label for the input. */
@@ -21,19 +21,19 @@ export default function TextInput({
   ...props
 }: TextInputProps) {
   return (
-    <div className={cx("group flex flex-col w-64", className)}>
+    <div className={cx("group flex w-64 flex-col", className)}>
       {label && (
         <label
-          className="text-base font-medium text-neutral-100 px-1 py-1"
+          className="px-1 py-1 text-base font-medium text-neutral-100"
           htmlFor={id || name}
         >
           {label}
         </label>
       )}
-      <div className="flex flex-row items-center gap-3 border-2 border-neutral-800 px-4 py-3 rounded  group-focus-within:border-neutral-100 transition-colors">
+      <div className="flex flex-row items-center gap-3 rounded border-2 border-neutral-800 px-4 py-3  transition-colors group-focus-within:border-neutral-100">
         <input
           type="text"
-          className="bg-transparent grow w-0 focus:outline-none"
+          className="w-0 grow bg-transparent focus:outline-none"
           id={id || name}
           name={name}
           {...props}
@@ -42,7 +42,7 @@ export default function TextInput({
       </div>
       {helperText && (
         <label
-          className="text-base font-medium text-neutral-400 px-4 py-1"
+          className="px-4 py-1 text-base font-medium text-neutral-400"
           htmlFor={id || name}
         >
           {helperText}

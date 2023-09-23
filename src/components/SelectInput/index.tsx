@@ -23,16 +23,19 @@ export interface SelectInputProps
   label?: ReactNode;
   /** The helper text for the input. */
   helperText?: ReactNode;
+  /** If true, the input will fill the width of its container. */
+  fullWidth?: boolean;
   /** The icon for the input. */
   options?: SelectOption[];
   /** The callback for when the input changes. */
   onChange?: (value: string | number) => void;
-  // TODO: disabled, error, fullWidth
+  // TODO: disabled, error
 }
 
 export default function SelectInput({
   label,
   helperText,
+  fullWidth,
   options = [],
   id,
   name,
@@ -89,7 +92,13 @@ export default function SelectInput({
   };
 
   return (
-    <div className={cx("group flex w-64 flex-col", className)}>
+    <div
+      className={cx(
+        "group flex w-64 flex-col",
+        fullWidth ? "w-full" : "w-64",
+        className,
+      )}
+    >
       {label && (
         <label
           className="px-1 py-1 text-base font-medium text-neutral-100"
@@ -104,10 +113,12 @@ export default function SelectInput({
       >
         <input
           type="text"
-          className="w-0 grow bg-transparent focus:outline-none"
+          className="w-0 grow bg-transparent caret-transparent focus:outline-none"
           id={id || name}
           name={name}
-          value={actualValue?.label || String(actualValue?.value)}
+          value={
+            actualValue ? actualValue.label || String(actualValue.value) : ""
+          }
           {...props}
         />
         <ArrowDownIcon className="rotate-0 transition-transform group-focus-within:rotate-180" />

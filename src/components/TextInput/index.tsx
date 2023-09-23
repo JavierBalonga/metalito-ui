@@ -8,13 +8,16 @@ export interface TextInputProps extends ComponentProps<"input"> {
   helperText?: ReactNode;
   /** The icon for the input. */
   icon?: ReactNode;
-  // TODO: disabled, error, fullWidth
+  /** If true, the input will fill the width of its container. */
+  fullWidth?: boolean;
+  // TODO: disabled, error
 }
 
 export default function TextInput({
   label,
   helperText,
   icon,
+  fullWidth,
   id,
   name,
   className,
@@ -26,7 +29,13 @@ export default function TextInput({
   };
 
   return (
-    <div className={cx("group flex w-64 flex-col", className)}>
+    <div
+      className={cx(
+        "group flex flex-col",
+        fullWidth ? "w-full" : "w-64",
+        className,
+      )}
+    >
       {label && (
         <label
           className="px-1 py-1 text-base font-medium text-neutral-100"

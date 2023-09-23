@@ -10,6 +10,7 @@ const meta = {
   tags: ["autodocs"],
   parameters: { docs: { theme: themes.dark } },
   args: {
+    id: "id",
     label: "Label",
     placeholder: "Placeholder",
     helperText: "Helper text",

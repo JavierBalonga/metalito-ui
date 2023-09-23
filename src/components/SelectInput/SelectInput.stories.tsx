@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { themes } from "@storybook/theming";
 import "../../index.css";
-import EyeIcon from "../icons/EyeIcon";
 import SelectInput from "./index";
 
 const meta = {
@@ -10,6 +9,7 @@ const meta = {
   tags: ["autodocs"],
   parameters: { docs: { theme: themes.dark } },
   args: {
+    id: "id",
     label: "Label",
     placeholder: "Placeholder",
     helperText: "Helper text",

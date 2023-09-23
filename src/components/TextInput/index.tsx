@@ -1,4 +1,4 @@
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps, MouseEvent, ReactNode } from "react";
 import { cx } from "class-variance-authority";
 
 export interface TextInputProps extends ComponentProps<"input"> {
@@ -20,6 +20,11 @@ export default function TextInput({
   className,
   ...props
 }: TextInputProps) {
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    const input = e.currentTarget.querySelector("input");
+    input?.focus();
+  };
+
   return (
     <div className={cx("group flex w-64 flex-col", className)}>
       {label && (
@@ -30,7 +35,10 @@ export default function TextInput({
           {label}
         </label>
       )}
-      <div className="flex flex-row items-center gap-3 rounded border-2 border-neutral-800 px-4 py-3  transition-colors group-focus-within:border-neutral-100">
+      <div
+        className="flex flex-row items-center gap-3 rounded border-2 border-neutral-800 px-4 py-3  transition-colors group-focus-within:border-neutral-100"
+        onClick={handleClick}
+      >
         <input
           type="text"
           className="w-0 grow bg-transparent focus:outline-none"

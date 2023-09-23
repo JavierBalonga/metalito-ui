@@ -67,6 +67,11 @@ export default function SelectInput({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    const input = e.currentTarget.querySelector("input");
+    input?.focus();
+  };
+
   const handleOptionClick = (
     e: MouseEvent<HTMLButtonElement>,
     option: SelectOption,
@@ -86,7 +91,10 @@ export default function SelectInput({
           {label}
         </label>
       )}
-      <div className="relative flex flex-row items-center gap-3 rounded border-2 border-neutral-800 bg-inherit px-4 py-3 transition-colors group-focus-within:border-neutral-100">
+      <div
+        className="relative flex flex-row items-center gap-3 rounded border-2 border-neutral-800 bg-inherit px-4 py-3 transition-colors group-focus-within:border-neutral-100"
+        onClick={handleClick}
+      >
         <input
           type="text"
           className="w-0 grow bg-transparent focus:outline-none"
@@ -96,7 +104,7 @@ export default function SelectInput({
         />
         <ArrowDownIcon className="rotate-0 transition-transform group-focus-within:rotate-180" />
         <div
-          className="absolute left-0 top-full z-10 flex w-full translate-y-0 flex-col rounded border-2 border-neutral-100 bg-neutral-950 opacity-0 transition-all group-focus-within:translate-y-2 group-focus-within:opacity-100"
+          className="pointer-events-none absolute left-0 top-full z-10 flex w-full translate-y-0 flex-col rounded border-2 border-neutral-100 bg-neutral-950 opacity-0 transition-all group-focus-within:pointer-events-auto group-focus-within:translate-y-2 group-focus-within:opacity-100"
           ref={menuRef}
         >
           {options.map((option) => (

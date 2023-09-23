@@ -3,6 +3,7 @@ import {
   MouseEvent,
   ReactNode,
   useEffect,
+  useMemo,
   useRef,
 } from "react";
 import { cx } from "class-variance-authority";
@@ -36,6 +37,7 @@ export default function SelectInput({
   id,
   name,
   className,
+  value,
   onChange,
   ...props
 }: SelectInputProps) {
@@ -67,6 +69,10 @@ export default function SelectInput({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const actualValue = useMemo(() => {
+    return options.find((option) => option.value === value);
+  }, [options, value]);
+
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     const input = e.currentTarget.querySelector("input");
     input?.focus();
@@ -79,6 +85,7 @@ export default function SelectInput({
     e.preventDefault();
     e.stopPropagation();
     onChange?.(option.value);
+    e.currentTarget.blur();
   };
 
   return (
@@ -100,6 +107,7 @@ export default function SelectInput({
           className="w-0 grow bg-transparent focus:outline-none"
           id={id || name}
           name={name}
+          value={actualValue?.label || String(actualValue?.value)}
           {...props}
         />
         <ArrowDownIcon className="rotate-0 transition-transform group-focus-within:rotate-180" />
@@ -113,7 +121,7 @@ export default function SelectInput({
               className="p-2 text-left transition-colors hover:bg-neutral-100/5 focus:bg-neutral-100/5 focus:outline-none"
               onClick={(e) => handleOptionClick(e, option)}
             >
-              {String(option.value) || option.label}
+              {option.label || String(option.value)}
             </button>
           ))}
         </div>

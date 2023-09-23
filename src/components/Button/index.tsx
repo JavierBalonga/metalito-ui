@@ -5,8 +5,10 @@ export type ButtonVariant = "contained" | "outlined" | "text";
 
 export type ButtonColor = "primary" | "danger" | "white";
 
+export type ButtonSize = "small" | "medium" | "large";
+
 const getButtonClassName = cva(
-  "px-6 py-3 font-bold text-sm rounded-lg transition-colors border",
+  "font-bold rounded-lg transition-colors border",
   {
     variants: {
       variant: {
@@ -18,6 +20,11 @@ const getButtonClassName = cva(
         primary: "",
         white: "",
         danger: "",
+      },
+      size: {
+        small: "px-4 py-2 text-xs",
+        medium: "px-6 py-3 text-sm",
+        large: "px-8 py-4 text-lg",
       },
     },
     compoundVariants: [
@@ -90,23 +97,25 @@ export interface ButtonProps extends Omit<ComponentProps<"button">, "color"> {
   variant?: ButtonVariant;
   /** The color to use. */
   color?: ButtonColor;
+  /** The size of the button. */
+  size?: ButtonSize;
   /** The button content. */
   children?: ReactNode;
   /** The handler function for the `click` event. */
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  // TODO: size
 }
 
 export default function Button({
   variant = "text",
   color = "white",
+  size = "medium",
   className,
   children,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={getButtonClassName({ variant, color, className })}
+      className={getButtonClassName({ variant, color, size, className })}
       {...props}
     >
       {children}

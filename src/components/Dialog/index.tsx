@@ -1,5 +1,6 @@
 import { ComponentProps } from "react";
 import { cx } from "class-variance-authority";
+import IconButton from "../IconButton";
 import CloseIcon from "../icons/CloseIcon";
 
 export interface DialogProps extends ComponentProps<"dialog"> {
@@ -40,13 +41,13 @@ export default function Dialog({
         {...props}
         open
       >
-        <button
-          className="absolute right-2 top-2 cursor-pointer rounded-full p-2 transition-colors hover:bg-neutral-100/20"
+        <IconButton
+          className="absolute right-2 top-2"
           tabIndex={-1}
           onClick={onClose}
         >
           <CloseIcon className="text-2xl" />
-        </button>
+        </IconButton>
         {children}
       </dialog>
     </>

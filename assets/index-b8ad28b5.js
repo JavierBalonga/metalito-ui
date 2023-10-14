@@ -1,0 +1,2 @@
+import{j as n,c as s}from"./index-df1f0e41.js";function t({className:r,children:o,...e}){return n.jsx("button",{className:s("flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-neutral-100/20 transition-colors hover:border-transparent hover:bg-neutral-100/20",r),...e,children:o})}try{t.displayName="IconButton",t.__docgenInfo={description:"",displayName:"IconButton",props:{}}}catch{}export{t as I};
+//# sourceMappingURL=index-b8ad28b5.js.map

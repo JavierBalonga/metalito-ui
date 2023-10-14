@@ -9,7 +9,7 @@ export default function IconButton({
   return (
     <button
       className={cx(
-        "cursor-pointer rounded-full p-2 transition-colors hover:bg-neutral-100/20",
+        "flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-neutral-100/20 transition-colors hover:border-transparent hover:bg-neutral-100/20",
         className,
       )}
       {...props}

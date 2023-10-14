@@ -42,7 +42,7 @@ export default function Dialog({
         open
       >
         <IconButton
-          className="absolute right-2 top-2"
+          className="absolute right-4 top-4"
           tabIndex={-1}
           onClick={onClose}
         >
